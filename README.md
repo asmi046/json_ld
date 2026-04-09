@@ -1,6 +1,6 @@
 # Laravel JSON-LD
 
-A Laravel package for rendering JSON-LD schema entities with a fluent facade API. Supports Person, Organization, Article, Product, and WebSite schema types with strict validation and Blade integration.
+Пакет для Laravel, который рендерит schema-сущности JSON-LD через fluent API фасада. Поддерживает типы Person, Organization, Article, Product и WebSite, а также строгую валидацию и интеграцию с Blade.
 
 ## Installation
 
@@ -10,7 +10,7 @@ composer require asmi046/laravel-jsonld
 
 ## Configuration
 
-Publish the configuration file:
+Опубликуйте конфигурационный файл:
 
 ```bash
 php artisan vendor:publish --tag=jsonld-config
@@ -21,16 +21,16 @@ php artisan vendor:publish --tag=jsonld-config
 ```php
 // config/jsonld.php
 return [
-    // Enable strict validation (required fields must be present)
+    // Включить строгую валидацию (обязательные поля должны быть заполнены)
     'strict' => true,
 
-    // Pretty print JSON output
+    // Красивое форматирование JSON
     'pretty_print' => false,
 
-    // HTML escape mode: 'none', 'json_encode', 'htmlspecialchars'
+    // Режим экранирования HTML: 'none', 'json_encode', 'htmlspecialchars'
     'escape_mode' => 'json_encode',
 
-    // JSON encode flags
+    // Флаги json_encode
     'json_flags' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
 ];
 ```
@@ -92,7 +92,7 @@ $website = JsonLd::website()
 ### Factory API
 
 ```php
-// Create entity using make method
+// Создание сущности через метод make
 $person = JsonLd::make('Person', [
     'name' => 'John Doe',
     'jobTitle' => 'Developer',
@@ -108,7 +108,7 @@ $org = JsonLd::make('Organization', [
 ### Using Helper Functions
 
 ```php
-// Fluent helpers
+// Fluent helper-функции
 $person = jsonld_person()
     ->name('John Doe')
     ->jobTitle('Developer')
@@ -126,13 +126,13 @@ $person = jsonld_make('Person', ['name' => 'John']);
 ### In Blade Templates
 
 ```blade
-<!-- Using Blade directive -->
+<!-- Использование Blade-директивы -->
 @jsonld($person)
 
-<!-- Using helper in expression -->
+<!-- Использование helper в выражении -->
 {{ $article->render() }}
 
-<!-- Building inline -->
+<!-- Построение inline -->
 {{ JsonLd::person()->name('John')->render() }}
 ```
 
@@ -141,13 +141,13 @@ $person = jsonld_make('Person', ['name' => 'John']);
 ```php
 $person = JsonLd::person()->name('John Doe');
 
-// Render as HTML script tag (default)
+// Рендер как HTML script tag (по умолчанию)
 echo $person->render();
 
-// Get as JSON string
+// Получить как JSON-строку
 $json = $person->toJson();
 
-// Get as PHP array
+// Получить как PHP-массив
 $array = $person->toArray();
 ```
 
@@ -155,117 +155,117 @@ $array = $person->toArray();
 
 ### Person
 
-**Required fields**: `name`
+**Обязательные поля**: `name`
 
-**Common fields**:
+**Основные поля**:
 
-- `name` - Full name
-- `email` - Email address
-- `jobTitle` - Job title
-- `url` - Website URL
-- `image` - Profile image URL
-- `telephone` - Phone number
-- `description` - Bio or description
-- `affiliation` - Associated Organization
-- `address` - Physical address
+- `name` - Полное имя
+- `email` - Email-адрес
+- `jobTitle` - Должность
+- `url` - URL сайта
+- `image` - URL изображения профиля
+- `telephone` - Телефон
+- `description` - Биография или описание
+- `affiliation` - Связанная организация
+- `address` - Физический адрес
 
 ### Organization
 
-**Required fields**: `name`
+**Обязательные поля**: `name`
 
-**Common fields**:
+**Основные поля**:
 
-- `name` - Organization name
-- `url` - Website URL
-- `logo` - Logo image URL
-- `description` - Organization description
-- `email` - Contact email
-- `telephone` - Contact phone
-- `address` - Physical address
-- `location` - Location information
-- `sameAs` - Social media links array
-- `contactPoint` - Contact point details
+- `name` - Название организации
+- `url` - URL сайта
+- `logo` - URL логотипа
+- `description` - Описание организации
+- `email` - Контактный email
+- `telephone` - Контактный телефон
+- `address` - Физический адрес
+- `location` - Информация о местоположении
+- `sameAs` - Массив ссылок на соцсети
+- `contactPoint` - Данные контактной точки
 
 ### Article
 
-**Required fields**: `headline`, `datePublished`
+**Обязательные поля**: `headline`, `datePublished`
 
-**Common fields**:
+**Основные поля**:
 
-- `headline` - Article title
-- `description` - Article description/excerpt
-- `image` - Featured image URL
-- `author` - Person or Organization (see Person/Organization)
-- `datePublished` - Publication date (ISO 8601)
-- `dateModified` - Last modified date
-- `url` - Article URL
-- `articleBody` - Full article content
-- `keywords` - Article tags
-- `publisher` - Publishing Organization
-- `articleSection` - Article category
+- `headline` - Заголовок статьи
+- `description` - Описание/анонс статьи
+- `image` - URL главного изображения
+- `author` - Person или Organization (см. Person/Organization)
+- `datePublished` - Дата публикации (ISO 8601)
+- `dateModified` - Дата последнего изменения
+- `url` - URL статьи
+- `articleBody` - Полный текст статьи
+- `keywords` - Ключевые слова
+- `publisher` - Организация-издатель
+- `articleSection` - Раздел/категория статьи
 
 ### Product
 
-**Required fields**: `name`
+**Обязательные поля**: `name`
 
-**Common fields**:
+**Основные поля**:
 
-- `name` - Product name
-- `description` - Product description
-- `image` - Product image URL
-- `brand` - Brand (Organization)
-- `price` - Price value
-- `priceCurrency` - Currency code (USD, EUR, etc.)
-- `url` - Product URL
-- `availability` - Availability status
-- `rating` - Rating object
-- `review` - Review object
-- `manufacturer` - Manufacturer (Organization)
-- `sku` - Stock keeping unit
+- `name` - Название товара
+- `description` - Описание товара
+- `image` - URL изображения товара
+- `brand` - Бренд (Organization)
+- `price` - Цена
+- `priceCurrency` - Код валюты (USD, EUR и т.д.)
+- `url` - URL товара
+- `availability` - Статус наличия
+- `rating` - Объект рейтинга
+- `review` - Объект отзыва
+- `manufacturer` - Производитель (Organization)
+- `sku` - Артикул товара
 
 ### WebSite
 
-**Required fields**: `name`, `url`
+**Обязательные поля**: `name`, `url`
 
-**Common fields**:
+**Основные поля**:
 
-- `name` - Website name
-- `url` - Website URL
-- `description` - Website description
-- `image` - Website image
-- `logo` - Logo image URL
-- `language` - Language code
-- `potentialAction` - Actions (like SearchAction)
-- `copyrightHolder` - Copyright holder
-- `author` - Website author
+- `name` - Название сайта
+- `url` - URL сайта
+- `description` - Описание сайта
+- `image` - Изображение сайта
+- `logo` - URL логотипа
+- `language` - Код языка
+- `potentialAction` - Действия (например SearchAction)
+- `copyrightHolder` - Правообладатель
+- `author` - Автор сайта
 
 ## Validation
 
-The package validates required fields in strict mode (enabled by default). Validation errors throw `ValidationException` with detailed field errors:
+Пакет проверяет обязательные поля в строгом режиме (включен по умолчанию). При ошибках валидации выбрасывается `ValidationException` с детализацией по полям:
 
 ```php
 use Asmi\JsonLd\Exceptions\ValidationException;
 
 try {
-    $person = JsonLd::person()->render(); // Missing required 'name'
+    $person = JsonLd::person()->render(); // Отсутствует обязательное поле 'name'
 } catch (ValidationException $e) {
     $errors = $e->getErrors();
     // ['name' => "Required field 'name' is missing."]
 }
 ```
 
-Disable strict validation:
+Отключить строгую валидацию:
 
 ```php
 // In config/jsonld.php
 'strict' => false,
 
-// Or temporarily
+// Или временно
 config(['jsonld.strict' => false]);
-$person = JsonLd::person()->render(); // Won't throw
+$person = JsonLd::person()->render(); // Исключение выброшено не будет
 ```
 
-## Output Example
+## Пример вывода
 
 ```html
 <script type="application/ld+json">
@@ -279,7 +279,7 @@ $person = JsonLd::person()->render(); // Won't throw
 </script>
 ```
 
-With `pretty_print` enabled:
+С включенным `pretty_print`:
 
 ```html
 <script type="application/ld+json">
@@ -298,14 +298,14 @@ With `pretty_print` enabled:
 ```bash
 php vendor/bin/phpunit
 
-# With coverage
+# С coverage
 php vendor/bin/phpunit --coverage-html coverage
 ```
 
 ## Contributing
 
-Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+Подробности смотрите в [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+Лицензия MIT. Подробности в [LICENSE](LICENSE).
