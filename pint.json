@@ -1,0 +1,19 @@
+<?php
+
+return [
+    'preset' => 'laravel',
+    'rules' => [
+        '@PSR12' => true,
+        'array_indentation' => true,
+        'method_chaining_indentation' => true,
+        'no_trailing_comma_in_singleline_argument_list' => true,
+        'trailing_comma_in_multiline' => true,
+    ],
+    'exclude' => [
+        'vendor',
+        'node_modules',
+        '.git',
+        'build',
+        'coverage',
+    ],
+];

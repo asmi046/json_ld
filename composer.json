@@ -1,0 +1,61 @@
+{
+    "name": "asmi046/laravel-jsonld",
+    "description": "Laravel package for rendering JSON-LD schema entities (Person, Organization, Article, Product, WebSite) with a fluent facade API",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "json-ld",
+        "schema-org",
+        "seo",
+        "structured-data"
+    ],
+    "authors": [
+        {
+            "name": "Asmi",
+            "email": "asmi046@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/asmi046/json_ld",
+    "support": {
+        "issues": "https://github.com/asmi046/json_ld/issues",
+        "source": "https://github.com/asmi046/json_ld"
+    },
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0 || ^11.0 || ^12.0",
+        "illuminate/view": "^10.0 || ^11.0 || ^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0 || ^9.0 || ^10.0",
+        "phpunit/phpunit": "^10.0 || ^11.0",
+        "phpstan/phpstan": "^1.10",
+        "laravel/pint": "^1.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "Asmi\\JsonLd\\": "src/"
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Asmi\\JsonLd\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Asmi\\JsonLd\\JsonLdServiceProvider"
+            ],
+            "aliases": {
+                "JsonLd": "Asmi\\JsonLd\\Facades\\JsonLd"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
