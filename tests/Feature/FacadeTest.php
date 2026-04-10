@@ -101,6 +101,19 @@ class FacadeTest extends TestCase
         $this->assertStringContainsString('Sky Tours', $rendered);
     }
 
+    public function test_facade_tourist_trip(): void
+    {
+        $trip = JsonLd::touristTrip()
+            ->name('Golden Ring Weekend')
+            ->startDate('2026-06-01')
+            ->endDate('2026-06-03');
+
+        $rendered = $trip->render();
+
+        $this->assertStringContainsString('TouristTrip', $rendered);
+        $this->assertStringContainsString('Golden Ring Weekend', $rendered);
+    }
+
     public function test_facade_make_local_business(): void
     {
         $business = JsonLd::make('LocalBusiness', [
@@ -121,6 +134,17 @@ class FacadeTest extends TestCase
 
         $this->assertEquals('TravelAgency', $agency->getType());
         $this->assertEquals('Sky Tours', $agency->get('name'));
+    }
+
+    public function test_facade_make_tourist_trip(): void
+    {
+        $trip = JsonLd::make('TouristTrip', [
+            'name' => 'Golden Ring Weekend',
+            'startDate' => '2026-06-01',
+        ]);
+
+        $this->assertEquals('TouristTrip', $trip->getType());
+        $this->assertEquals('Golden Ring Weekend', $trip->get('name'));
     }
 
     public function test_make_with_invalid_type_throws_exception(): void

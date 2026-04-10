@@ -1,6 +1,6 @@
 # Laravel JSON-LD
 
-Пакет для Laravel, который рендерит schema-сущности JSON-LD через fluent API фасада. Поддерживает типы Person, Organization, Article, Product, WebSite, LocalBusiness и TravelAgency, а также строгую валидацию и интеграцию с Blade.
+Пакет для Laravel, который рендерит schema-сущности JSON-LD через fluent API фасада. Поддерживает типы Person, Organization, Article, Product, WebSite, LocalBusiness, TravelAgency и TouristTrip, а также строгую валидацию и интеграцию с Blade.
 
 ## Installation
 
@@ -110,6 +110,17 @@ $travelAgency = JsonLd::travelAgency()
     ->areaServed(['Россия', 'Европа', 'Азия'])
     ->serviceType('Туристические туры')
     ->render();
+
+// TouristTrip
+$trip = JsonLd::touristTrip()
+    ->name('Золотое кольцо на выходные')
+    ->description('Культурный тур по древним городам России')
+    ->startDate('2026-06-01')
+    ->endDate('2026-06-03')
+    ->touristType(['Семьи', 'Пары'])
+    ->itinerary(['Москва', 'Сергиев Посад', 'Суздаль'])
+    ->provider(JsonLd::travelAgency()->name('Путешествия мечты'))
+    ->render();
 ```
 
 ### Factory API
@@ -138,6 +149,13 @@ $travelAgency = JsonLd::make('TravelAgency', [
     'areaServed' => ['Россия', 'Европа'],
     'serviceType' => 'Туристические туры',
 ])->render();
+
+$trip = JsonLd::make('TouristTrip', [
+    'name' => 'Золотое кольцо на выходные',
+    'startDate' => '2026-06-01',
+    'endDate' => '2026-06-03',
+    'touristType' => ['Семьи', 'Пары'],
+])->render();
 ```
 
 ### Using Helper Functions
@@ -155,11 +173,13 @@ $product = jsonld_product()->name('Product')->price(99.99)->render();
 $website = jsonld_website()->name('Site')->url('https://example.com')->render();
 $localBusiness = jsonld_local_business()->name('Кофейня')->openingHours('Mo-Fr 08:00-22:00')->render();
 $travelAgency = jsonld_travel_agency()->name('Агентство')->areaServed('Россия')->render();
+$trip = jsonld_tourist_trip()->name('Тур')->startDate('2026-06-01')->render();
 
 // Factory helper
 $person = jsonld_make('Person', ['name' => 'John']);
 $localBusiness = jsonld_make('LocalBusiness', ['name' => 'Кофейня']);
 $travelAgency = jsonld_make('TravelAgency', ['name' => 'Агентство']);
+$trip = jsonld_make('TouristTrip', ['name' => 'Тур']);
 ```
 
 ### In Blade Templates
@@ -312,6 +332,23 @@ $array = $person->toArray();
 
 - `areaServed` - Обслуживаемые регионы (строка или массив)
 - `serviceType` - Тип туристических услуг
+
+### TouristTrip
+
+Представляет туристическую поездку/тур.
+
+**Обязательные поля**: `name`
+
+**Основные поля**:
+
+- `name` - Название тура
+- `description` - Описание тура
+- `startDate` - Дата начала (ISO 8601)
+- `endDate` - Дата окончания (ISO 8601)
+- `itinerary` - Маршрут или программа тура (строка или массив)
+- `offers` - Коммерческое предложение (например `Offer`)
+- `touristType` - Целевая аудитория туристов (строка или массив)
+- `provider` - Организатор тура (`Organization`, `TravelAgency` или массив)
 
 ## Validation
 

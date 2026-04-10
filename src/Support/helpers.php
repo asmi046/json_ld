@@ -71,6 +71,16 @@ function jsonld_travel_agency(array $data = []): \Asmi\JsonLd\Entities\TravelAge
 }
 
 /**
+ * Create a TouristTrip JSON-LD entity.
+ *
+ * @param array<string, mixed> $data
+ */
+function jsonld_tourist_trip(array $data = []): \Asmi\JsonLd\Entities\TouristTrip
+{
+    return \Asmi\JsonLd\Facades\JsonLd::touristTrip($data);
+}
+
+/**
  * Create a JSON-LD entity by type name.
  *
  * @param array<string, mixed> $data

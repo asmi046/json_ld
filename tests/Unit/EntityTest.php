@@ -7,6 +7,7 @@ use Asmi\JsonLd\Entities\LocalBusiness;
 use Asmi\JsonLd\Entities\Organization;
 use Asmi\JsonLd\Entities\Person;
 use Asmi\JsonLd\Entities\Product;
+use Asmi\JsonLd\Entities\TouristTrip;
 use Asmi\JsonLd\Entities\TravelAgency;
 use Asmi\JsonLd\Entities\WebSite;
 use Asmi\JsonLd\Exceptions\ValidationException;
@@ -112,6 +113,20 @@ class EntityTest extends TestCase
         $this->assertEquals('TravelAgency', $agency->getType());
         $this->assertEquals('Sky Tours', $agency->get('name'));
         $this->assertEquals('International tours', $agency->get('serviceType'));
+    }
+
+    public function test_tourist_trip_entity_can_be_created(): void
+    {
+        $trip = new TouristTrip()
+            ->name('Golden Ring Weekend')
+            ->description('Short cultural trip')
+            ->startDate('2026-06-01')
+            ->endDate('2026-06-03')
+            ->touristType(['Families', 'Couples']);
+
+        $this->assertEquals('TouristTrip', $trip->getType());
+        $this->assertEquals('Golden Ring Weekend', $trip->get('name'));
+        $this->assertEquals('2026-06-01', $trip->get('startDate'));
     }
 
     public function test_entity_to_array(): void
