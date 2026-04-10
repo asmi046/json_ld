@@ -76,6 +76,53 @@ class FacadeTest extends TestCase
         $this->assertStringContainsString('https://example.com', $rendered);
     }
 
+    public function test_facade_local_business(): void
+    {
+        $business = JsonLd::localBusiness()
+            ->name('Acme Office')
+            ->openingHours('Mo-Fr 09:00-18:00')
+            ->priceRange('$$');
+
+        $rendered = $business->render();
+
+        $this->assertStringContainsString('LocalBusiness', $rendered);
+        $this->assertStringContainsString('Acme Office', $rendered);
+    }
+
+    public function test_facade_travel_agency(): void
+    {
+        $agency = JsonLd::travelAgency()
+            ->name('Sky Tours')
+            ->serviceType('International tours');
+
+        $rendered = $agency->render();
+
+        $this->assertStringContainsString('TravelAgency', $rendered);
+        $this->assertStringContainsString('Sky Tours', $rendered);
+    }
+
+    public function test_facade_make_local_business(): void
+    {
+        $business = JsonLd::make('LocalBusiness', [
+            'name' => 'Acme Office',
+            'openingHours' => 'Mo-Fr 09:00-18:00',
+        ]);
+
+        $this->assertEquals('LocalBusiness', $business->getType());
+        $this->assertEquals('Acme Office', $business->get('name'));
+    }
+
+    public function test_facade_make_travel_agency(): void
+    {
+        $agency = JsonLd::make('TravelAgency', [
+            'name' => 'Sky Tours',
+            'serviceType' => 'International tours',
+        ]);
+
+        $this->assertEquals('TravelAgency', $agency->getType());
+        $this->assertEquals('Sky Tours', $agency->get('name'));
+    }
+
     public function test_make_with_invalid_type_throws_exception(): void
     {
         $this->expectException(\Asmi\JsonLd\Exceptions\JsonLdException::class);

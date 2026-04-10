@@ -51,6 +51,26 @@ function jsonld_website(array $data = []): \Asmi\JsonLd\Entities\WebSite
 }
 
 /**
+ * Create a LocalBusiness JSON-LD entity.
+ *
+ * @param array<string, mixed> $data
+ */
+function jsonld_local_business(array $data = []): \Asmi\JsonLd\Entities\LocalBusiness
+{
+    return \Asmi\JsonLd\Facades\JsonLd::localBusiness($data);
+}
+
+/**
+ * Create a TravelAgency JSON-LD entity.
+ *
+ * @param array<string, mixed> $data
+ */
+function jsonld_travel_agency(array $data = []): \Asmi\JsonLd\Entities\TravelAgency
+{
+    return \Asmi\JsonLd\Facades\JsonLd::travelAgency($data);
+}
+
+/**
  * Create a JSON-LD entity by type name.
  *
  * @param array<string, mixed> $data

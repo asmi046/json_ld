@@ -3,9 +3,11 @@
 namespace Asmi\JsonLd\Tests\Unit;
 
 use Asmi\JsonLd\Entities\Article;
+use Asmi\JsonLd\Entities\LocalBusiness;
 use Asmi\JsonLd\Entities\Organization;
 use Asmi\JsonLd\Entities\Person;
 use Asmi\JsonLd\Entities\Product;
+use Asmi\JsonLd\Entities\TravelAgency;
 use Asmi\JsonLd\Entities\WebSite;
 use Asmi\JsonLd\Exceptions\ValidationException;
 use Asmi\JsonLd\Tests\TestCase;
@@ -85,6 +87,31 @@ class EntityTest extends TestCase
 
         $this->assertEquals('WebSite', $website->getType());
         $this->assertEquals('My Website', $website->get('name'));
+    }
+
+    public function test_local_business_entity_can_be_created(): void
+    {
+        $business = new LocalBusiness()
+            ->name('Acme Office')
+            ->address('Main street 1')
+            ->openingHours('Mo-Fr 09:00-18:00')
+            ->priceRange('$$');
+
+        $this->assertEquals('LocalBusiness', $business->getType());
+        $this->assertEquals('Acme Office', $business->get('name'));
+        $this->assertEquals('$$', $business->get('priceRange'));
+    }
+
+    public function test_travel_agency_entity_can_be_created(): void
+    {
+        $agency = new TravelAgency()
+            ->name('Sky Tours')
+            ->serviceType('International tours')
+            ->areaServed(['Europe', 'Asia']);
+
+        $this->assertEquals('TravelAgency', $agency->getType());
+        $this->assertEquals('Sky Tours', $agency->get('name'));
+        $this->assertEquals('International tours', $agency->get('serviceType'));
     }
 
     public function test_entity_to_array(): void

@@ -3,9 +3,11 @@
 namespace Asmi\JsonLd;
 
 use Asmi\JsonLd\Entities\Article;
+use Asmi\JsonLd\Entities\LocalBusiness;
 use Asmi\JsonLd\Entities\Organization;
 use Asmi\JsonLd\Entities\Person;
 use Asmi\JsonLd\Entities\Product;
+use Asmi\JsonLd\Entities\TravelAgency;
 use Asmi\JsonLd\Entities\WebSite;
 use Asmi\JsonLd\Exceptions\JsonLdException;
 
@@ -62,6 +64,26 @@ class JsonLdManager
     }
 
     /**
+     * Create a LocalBusiness entity.
+     *
+     * @param array<string, mixed> $data
+     */
+    public function localBusiness(array $data = []): LocalBusiness
+    {
+        return new LocalBusiness($data);
+    }
+
+    /**
+     * Create a TravelAgency entity.
+     *
+     * @param array<string, mixed> $data
+     */
+    public function travelAgency(array $data = []): TravelAgency
+    {
+        return new TravelAgency($data);
+    }
+
+    /**
      * Create an entity by type name.
         *
         * @param array<string, mixed> $data
@@ -74,6 +96,8 @@ class JsonLdManager
             'article' => $this->article($data),
             'product' => $this->product($data),
             'website' => $this->website($data),
+            'localbusiness' => $this->localBusiness($data),
+            'travelagency' => $this->travelAgency($data),
             default => throw new JsonLdException("Unsupported entity type: {$type}"),
         };
     }
