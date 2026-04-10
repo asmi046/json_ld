@@ -1,6 +1,6 @@
 # Laravel JSON-LD
 
-Пакет для Laravel, который рендерит schema-сущности JSON-LD через fluent API фасада. Поддерживает типы Person, Organization, Article, Product и WebSite, а также строгую валидацию и интеграцию с Blade.
+Пакет для Laravel, который рендерит schema-сущности JSON-LD через fluent API фасада. Поддерживает типы Person, Organization, Article, Product, WebSite, LocalBusiness и TravelAgency, а также строгую валидацию и интеграцию с Blade.
 
 ## Installation
 
@@ -87,6 +87,29 @@ $website = JsonLd::website()
     ->description('Welcome to my website')
     ->logo('https://example.com/logo.png')
     ->render();
+
+// LocalBusiness
+$localBusiness = JsonLd::localBusiness()
+    ->name('Кофейня на Арбате')
+    ->url('https://coffeeshop.ru')
+    ->telephone('+7-495-000-0000')
+    ->address('Арбат, 10, Москва')
+    ->openingHours('Mo-Fr 08:00-22:00')
+    ->priceRange('$$')
+    ->geo(['@type' => 'GeoCoordinates', 'latitude' => 55.7522, 'longitude' => 37.5722])
+    ->paymentAccepted(['Cash', 'Credit Card'])
+    ->render();
+
+// TravelAgency
+$travelAgency = JsonLd::travelAgency()
+    ->name('Путешествия мечты')
+    ->url('https://dream-travel.ru')
+    ->telephone('+7-800-000-0000')
+    ->email('info@dream-travel.ru')
+    ->openingHours('Mo-Su 09:00-21:00')
+    ->areaServed(['Россия', 'Европа', 'Азия'])
+    ->serviceType('Туристические туры')
+    ->render();
 ```
 
 ### Factory API
@@ -103,6 +126,18 @@ $org = JsonLd::make('Organization', [
     'name' => 'Acme Corp',
     'url' => 'https://acme.com',
 ])->render();
+
+$localBusiness = JsonLd::make('LocalBusiness', [
+    'name' => 'Кофейня на Арбате',
+    'telephone' => '+7-495-000-0000',
+    'openingHours' => 'Mo-Fr 08:00-22:00',
+])->render();
+
+$travelAgency = JsonLd::make('TravelAgency', [
+    'name' => 'Путешествия мечты',
+    'areaServed' => ['Россия', 'Европа'],
+    'serviceType' => 'Туристические туры',
+])->render();
 ```
 
 ### Using Helper Functions
@@ -118,9 +153,13 @@ $org = jsonld_organization()->name('Acme Corp')->render();
 $article = jsonld_article()->headline('My Post')->datePublished('2026-04-09')->render();
 $product = jsonld_product()->name('Product')->price(99.99)->render();
 $website = jsonld_website()->name('Site')->url('https://example.com')->render();
+$localBusiness = jsonld_local_business()->name('Кофейня')->openingHours('Mo-Fr 08:00-22:00')->render();
+$travelAgency = jsonld_travel_agency()->name('Агентство')->areaServed('Россия')->render();
 
 // Factory helper
 $person = jsonld_make('Person', ['name' => 'John']);
+$localBusiness = jsonld_make('LocalBusiness', ['name' => 'Кофейня']);
+$travelAgency = jsonld_make('TravelAgency', ['name' => 'Агентство']);
 ```
 
 ### In Blade Templates
@@ -238,6 +277,41 @@ $array = $person->toArray();
 - `potentialAction` - Действия (например SearchAction)
 - `copyrightHolder` - Правообладатель
 - `author` - Автор сайта
+
+### LocalBusiness
+
+Наследует все поля `Organization`. Представляет физическое местное заведение.
+
+**Обязательные поля**: `name`
+
+**Основные поля (унаследованы от Organization)**:
+
+- `name` - Название заведения
+- `url` - URL сайта
+- `telephone` - Телефон
+- `email` - Email
+- `address` - Физический адрес
+- `logo` - URL логотипа
+- `description` - Описание
+- `sameAs` - Ссылки на соцсети
+
+**Специфичные поля**:
+
+- `openingHours` - Часы работы (например `Mo-Fr 08:00-22:00`)
+- `priceRange` - Ценовой диапазон (`$`, `$$`, `$$$` и т.д.)
+- `geo` - Географические координаты (`@type: GeoCoordinates`, `latitude`, `longitude`)
+- `paymentAccepted` - Принимаемые способы оплаты (строка или массив)
+
+### TravelAgency
+
+Наследует все поля `LocalBusiness`. Представляет туристическое агентство.
+
+**Обязательные поля**: `name`
+
+**Специфичные поля**:
+
+- `areaServed` - Обслуживаемые регионы (строка или массив)
+- `serviceType` - Тип туристических услуг
 
 ## Validation
 
