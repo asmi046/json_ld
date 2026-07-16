@@ -153,6 +153,24 @@ class FacadeTest extends TestCase
         JsonLd::make('InvalidType');
     }
 
+    public function test_facade_raw_renders_free_form_json(): void
+    {
+        $json = '{"@context":"https://schema.org","@type":"FAQPage","name":"Test"}';
+
+        $rendered = JsonLd::raw($json)->render();
+
+        $this->assertStringContainsString('<script type="application/ld+json">', $rendered);
+        $this->assertStringContainsString('"FAQPage"', $rendered);
+        $this->assertStringContainsString('"Test"', $rendered);
+    }
+
+    public function test_facade_raw_invalid_json_throws_exception(): void
+    {
+        $this->expectException(\Asmi\JsonLd\Exceptions\JsonLdException::class);
+
+        JsonLd::raw('{invalid');
+    }
+
     public function test_strict_validation_fails(): void
     {
         $this->expectException(ValidationException::class);

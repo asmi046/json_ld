@@ -43,4 +43,19 @@ class BladeDirectiveTest extends TestCase
         $this->assertStringContainsString('<script type="application/ld+json">', $output);
         $this->assertStringContainsString('John Doe', $output);
     }
+
+    public function test_blade_directive_renders_raw_json(): void
+    {
+        $compiled = Blade::compileString('@jsonld(jsonld_raw($json))');
+
+        $json = '{"@context":"https://schema.org","@type":"WebPage","name":"Page"}';
+
+        ob_start();
+        eval('?>' . $compiled);
+        $output = ob_get_clean();
+
+        $this->assertStringContainsString('<script type="application/ld+json">', $output);
+        $this->assertStringContainsString('"WebPage"', $output);
+        $this->assertStringContainsString('"Page"', $output);
+    }
 }

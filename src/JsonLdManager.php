@@ -7,6 +7,7 @@ use Asmi\JsonLd\Entities\LocalBusiness;
 use Asmi\JsonLd\Entities\Organization;
 use Asmi\JsonLd\Entities\Person;
 use Asmi\JsonLd\Entities\Product;
+use Asmi\JsonLd\Entities\RawSchema;
 use Asmi\JsonLd\Entities\TouristTrip;
 use Asmi\JsonLd\Entities\TravelAgency;
 use Asmi\JsonLd\Entities\WebSite;
@@ -92,6 +93,16 @@ class JsonLdManager
     public function touristTrip(array $data = []): TouristTrip
     {
         return new TouristTrip($data);
+    }
+
+    /**
+     * Create a raw schema from a free-form JSON string.
+     *
+     * @throws \Asmi\JsonLd\Exceptions\JsonLdException When the JSON string is invalid or not an object.
+     */
+    public function raw(string $json): RawSchema
+    {
+        return new RawSchema($json);
     }
 
     /**

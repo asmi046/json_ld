@@ -89,3 +89,13 @@ function jsonld_make(string $type, array $data = []): mixed
 {
     return \Asmi\JsonLd\Facades\JsonLd::make($type, $data);
 }
+
+/**
+ * Create a raw JSON-LD schema from a free-form JSON string.
+ *
+ * @throws \Asmi\JsonLd\Exceptions\JsonLdException When the JSON string is invalid or not an object.
+ */
+function jsonld_raw(string $json): \Asmi\JsonLd\Entities\RawSchema
+{
+    return \Asmi\JsonLd\Facades\JsonLd::raw($json);
+}

@@ -158,6 +158,35 @@ $trip = JsonLd::make('TouristTrip', [
 ])->render();
 ```
 
+### Raw / Free-form JSON
+
+`raw()` принимает произвольную JSON-строку и рендерит её как JSON-LD. Содержимое
+сохраняется, форматирование нормализуется через пайплайн пакета (учитывается опция
+`pretty_print`). Строгая валидация не применяется — вы полностью отвечаете за структуру,
+включая `@context` и `@type`.
+
+```php
+use Asmi\JsonLd\Facades\JsonLd;
+
+$json = '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Question?","acceptedAnswer":{"@type":"Answer","text":"Answer."}}]}';
+
+// Рендер как HTML script tag
+$script = JsonLd::raw($json)->render();
+
+// Получить как нормализованный JSON / массив
+$json = JsonLd::raw($json)->toJson();
+$array = JsonLd::raw($json)->toArray();
+```
+
+В Blade через helper:
+
+```blade
+@jsonld(jsonld_raw($json))
+```
+
+> Входная строка должна быть валидным JSON-объектом. Скаляры, массивы и невалидный
+> JSON вызывают `Asmi\JsonLd\Exceptions\JsonLdException`.
+
 ### Using Helper Functions
 
 ```php
@@ -180,6 +209,9 @@ $person = jsonld_make('Person', ['name' => 'John']);
 $localBusiness = jsonld_make('LocalBusiness', ['name' => 'Кофейня']);
 $travelAgency = jsonld_make('TravelAgency', ['name' => 'Агентство']);
 $trip = jsonld_make('TouristTrip', ['name' => 'Тур']);
+
+// Raw helper — произвольная JSON-строка
+$script = jsonld_raw('{"@context":"https://schema.org","@type":"WebPage","name":"Page"}')->render();
 ```
 
 ### In Blade Templates
